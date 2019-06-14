@@ -32,8 +32,18 @@ void Simulation::tryToPush(double time) {
     }
     int r = rand() % 10 + 1;
     if (r <= stay_coeff * 10) {
-        queue.push(serveTime[i]);
-        LOG(Severity::INFO, "Customer pushed to the queue.");
+        queue.push_back(serveTime[i]);
+        LOG(Severity::INFO, "Customer joined the queue.");
+        LOG(Severity::INFO, "Customer number " + std::to_string(i) + "/" + std::to_string(peopleCount));
+        for (auto& it : queue) {
+            timeInSystem += it;
+        }
+        if (queue.size() > 1) {
+            for (auto& it : queue) {
+                timeInQueue += it;
+            }
+            timeInQueue -= queue.front();
+        }
     } else {
         LOG(Severity::INFO, "Customer not joined the party.");
     }
@@ -50,7 +60,9 @@ void Simulation::tryToServe(double time) {
         return;
     }
     double tempTime = -queue.front();
-    queue.pop();
+    queue.pop_front();
+    LOG(Severity::INFO, "Customer served.");
+    servedPeople++;
     tryToServe(tempTime);
 }
 
@@ -95,6 +107,8 @@ void Simulation::simulate() {
         file << time << ":" << queue.size() << " ";
         
     }
+
+    file << servedPeople << ":" << time << ":" << timeInSystem << ":" << timeInQueue;
 
     file.close();
     LOG(Severity::INFO, "Simulation finished");

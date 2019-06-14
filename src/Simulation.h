@@ -1,7 +1,7 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
-#include <queue>
+#include <deque>
 #include "Logger.h"
 
 #define LOG(severity, message) Logger::getInstance().log(severity, message)
@@ -28,7 +28,11 @@ private:
     double* serveTime;
     int i = 0;
 
-    std::queue<double> queue;
+    std::deque<double> queue;
+
+    int servedPeople = 0;
+    double timeInSystem = 0;
+    double timeInQueue = 0;
 };
 
 #endif
