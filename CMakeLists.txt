@@ -5,6 +5,4 @@ set(CMAKE_CXX_STANDARD 11)
 
 set(EXECUTABLE_NAME "queue")
 
-add_executable(${EXECUTABLE_NAME} src/main.cpp)
-
-target_link_libraries(queue sfml-graphics sfml-window sfml-system)
+add_executable(${EXECUTABLE_NAME} src/main.cpp src/Simulation.cpp src/Logger.cpp)
